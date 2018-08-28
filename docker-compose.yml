@@ -1,0 +1,31 @@
+```yaml
+version: '3.0'
+
+services:
+  datingdb:
+    image: mysql:5.7
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: datingappschema
+      MYSQL_USER: datingappuser
+      MYSQL_PASSWORD: password
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./_MySql_Init_Script:/docker-entrypoint-initdb.d
+
+  datingapp:
+    depends_on:
+      - datingdb
+    image: gabrieleteotino/datingapp:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DatingDbConnection=Server=datingdb;Database=datingappschema;Uid=datingappuser;Pwd=password;
+    env_file: ./datingapp.env
+    build:
+      context: .
+    ports:
+      - '8080:80'
+
+volumes:
+  dbdata:
+```
