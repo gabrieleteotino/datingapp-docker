@@ -1,4 +1,3 @@
-```yaml
 version: '3.0'
 
 services:
@@ -21,11 +20,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DatingDbConnection=Server=datingdb;Database=datingappschema;Uid=datingappuser;Pwd=password;
     env_file: ./datingapp.env
-    build:
-      context: .
     ports:
       - '8080:80'
 
 volumes:
   dbdata:
-```
